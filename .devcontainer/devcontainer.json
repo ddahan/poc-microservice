@@ -3,7 +3,7 @@
     "dockerComposeFile": "docker-compose.yml",
     "service": "app",
     "workspaceFolder": "/workspace",
-    // "onCreateCommand": "poetry config virtualenvs.create false && poetry install,
+    "onCreateCommand": "poetry config virtualenvs.create false && poetry install",
     "features": {
         "ghcr.io/ddahan/feature-starter/poetry:latest": {
             "version": "2.1.1"

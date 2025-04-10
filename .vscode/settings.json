@@ -1,0 +1,62 @@
+{
+    //*********************************************************************
+    // general
+    //*********************************************************************
+    "files.insertFinalNewline": true,
+    "files.exclude": {
+        // back
+        "**/__pycache__": true,
+        "**/.ruff_cache": true,
+    },
+    "editor.rulers": [
+        90
+    ],
+    "editor.wordWrapColumn": 90,
+    "editor.detectIndentation": false,
+    "editor.indentSize": "tabSize",
+    "editor.formatOnSave": true,
+    "editor.quickSuggestions": {
+        "strings": true
+    },
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit",
+        "source.fixAll": "never",
+    },
+    "workbench.editor.labelFormat": "medium",
+    "workbench.colorCustomizations": {
+        "titleBar.activeBackground": "#930349",
+        "titleBar.activeForeground": "#ffffff"
+    },
+    //*********************************************************************
+    // python
+    //*********************************************************************
+    "[python]": {
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.tabSize": 4,
+        "editor.rulers": [
+            90
+        ],
+    },
+    "python.defaultInterpreterPath": "/usr/local/bin/python",
+    // Pylance
+    "python.languageServer": "Pylance", // Intellisense, AutoComplete, and 2nd linter with type checker
+    "python.analysis.typeCheckingMode": "strict",
+    "python.analysis.diagnosticSeverityOverrides": {
+        "reportUnusedImport": "warning",
+        "reportUnusedVariable": "warning",
+        "reportUndefinedVariable": "error",
+        "reportUnknownMemberType": "information",
+        "reportUnknownVariableType": "information",
+        "reportTypedDictNotRequiredAccess": "warning"
+    },
+    "python.analysis.indexing": true,
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.packageIndexDepths": [
+        {
+            "name": "", // for all packages
+            "depth": 2, // should be enough for most packages. Has a performance cost
+            "includeAllSymbols": true // not sure
+        },
+    ],
+    "python.analysis.importFormat": "absolute",
+}

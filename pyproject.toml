@@ -1,0 +1,87 @@
+[tool]
+
+[tool.poetry]
+name = "poc microservice"
+version = "0.1.0"
+package-mode = false
+authors = ["David Dahan <david.dahan3@gmail.com>"]
+
+
+[tool.ruff]
+line-length = 90
+target-version = "py313"
+extend-exclude = ["__pycache__"]
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # pyflakes
+    "I",      # isort
+    "B",      # flake8-bugbear
+    "C4",     # flake8-comprehensions
+    "UP",     # pyupgrade
+    "ARG001", # unused arguments in functions
+]
+ignore = [
+    "E501", #https://docs.astral.sh/ruff/rules/line-too-long/
+    "I001", # https://docs.astral.sh/ruff/rules/unsorted-imports/
+    "C408", # https://docs.astral.sh/ruff/rules/unnecessary-collection-call/
+    "E731", # https://docs.astral.sh/ruff/rules/lambda-assignment/
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = [
+    "F401", # unused import
+    "F403", # star imports
+]
+
+[tool.ruff.lint.pyupgrade]
+# Preserve types, even if a file imports `from __future__ import annotations`.
+keep-runtime-typing = true
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.poetry.dependencies]
+##########################################################################################
+# Main tools
+##########################################################################################
+# https://github.com/python/cpython
+python = "3.13.2"
+
+# https://github.com/tiangolo/fastapi
+fastapi = { version = "*", extras = ["standard"] }
+
+# https://github.com/pydantic/pydantic
+pydantic = ">2.0"
+
+# https://github.com/pydantic/pydantic-settings
+pydantic-settings = "*"
+
+# https://github.com/pydantic/pydantic-extra-types
+pydantic-extra-types = "*"
+
+# https://github.com/gotcha/ipdb
+ipdb = "*"
+
+# https://github.com/psycopg/psycopg
+psycopg = { extras = ["binary"], version = "*" }
+
+# https://github.com/Textualize/rich
+rich = "*"
+
+# https://github.com/Delgan/loguru
+loguru = "*"
+
+# https://github.com/astral-sh/ruff
+# used to 1) have easy access to 'ruff' command for other tools
+#         2) have access to the latest version compared to bundled binary from extension
+ruff = "*"
+
+[tool.poetry.requires-plugins]
+poetry-plugin-export = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
