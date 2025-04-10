@@ -1,0 +1,39 @@
+services:
+  app: # should be split in multiple services in production
+    image: "python:3.13.2-bookworm"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PYTHONBREAKPOINT=ipdb.set_trace
+    volumes:
+      - ..:/workspaces:delegated
+    command: sleep infinity
+    ports:
+      - "8000:8000" # FastAPI (user)
+      - "8001:8001" # FastAPI (order)
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  user-db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: user_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    ports:
+      - "5433:5432"
+
+  order-db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: order_db
+      POSTGRES_USER: order
+      POSTGRES_PASSWORD: pass
+    ports:
+      - "5434:5432"

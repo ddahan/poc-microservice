@@ -1,6 +1,6 @@
 {
     "name": "🎖️ POC MicroService",
-    "dockerComposeFile": "docker-compose.yml",
+    "dockerComposeFile": "docker-compose.local.yml",
     "service": "app",
     "workspaceFolder": "/workspace",
     "onCreateCommand": "poetry config virtualenvs.create false && poetry install",
