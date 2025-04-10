@@ -1,0 +1,24 @@
+{
+    "name": "🎖️ POC MicroService",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "app",
+    "workspaceFolder": "/workspace",
+    // "onCreateCommand": "poetry config virtualenvs.create false && poetry install,
+    "features": {
+        "ghcr.io/ddahan/feature-starter/poetry:latest": {
+            "version": "2.1.1"
+        },
+        "ghcr.io/ddahan/feature-starter/custom_bashrc:latest": {},
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "charliermarsh.ruff",
+                "tamasfe.even-better-toml",
+            ],
+            "settings": {}
+        }
+    }
+}
