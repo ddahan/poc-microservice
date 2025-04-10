@@ -8,7 +8,7 @@ This project demonstrates a simple event-driven microservices architecture using
 
 - **User Service**: FastAPI app that exposes an HTTP POST /users endpoint. When a user is created, it saves the user to its own local SQLite database and publishes a `user_created` event to RabbitMQ.
 
-- **Order Service**: A background Python process that subscribes to the user_created queue in RabbitMQ. When it receives an event, it creates or updates a local copy of the user (called a snapshot) in its own SQLite database.
+- **Order Service**: A background Python process that subscribes to the `user_created` queue in RabbitMQ. When it receives an event, it creates or updates a local (partial) copy of the user (called a snapshot) in its own SQLite database.
 
 This demonstrates decoupling, event publishing/consuming, and eventual consistency between services — each service has its own database and communicates via messages, not HTTP.
 
