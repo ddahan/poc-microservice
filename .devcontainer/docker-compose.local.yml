@@ -22,7 +22,7 @@ services:
       RABBITMQ_DEFAULT_PASS: guest
 
   user-db:
-    image: postgres:15
+    image: postgres:17-bookworm
     environment:
       POSTGRES_DB: user_db
       POSTGRES_USER: user
@@ -31,7 +31,7 @@ services:
       - "5433:5432"
 
   order-db:
-    image: postgres:15
+    image: postgres:17-bookworm
     environment:
       POSTGRES_DB: order_db
       POSTGRES_USER: order

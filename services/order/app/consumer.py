@@ -2,11 +2,12 @@ import json
 from typing import Any
 
 import pika
-from app.config import get_settings
-from app.db import SessionLocal
-from app.models import UserSnapshot
 from pika.adapters.blocking_connection import BlockingChannel
 from pika.spec import Basic, BasicProperties
+
+from .config import get_settings
+from .db import SessionLocal
+from .models import UserSnapshot
 
 settings = get_settings()
 params = pika.URLParameters(settings.RABBITMQ_URL)

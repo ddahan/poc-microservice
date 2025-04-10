@@ -14,7 +14,7 @@ class Settings(BaseSettings):
         env_file=BASE_DIR / ".env",
         env_ignore_empty=True,
         case_sensitive=True,
-        extra="forbid",
+        extra="allow",
     )
 
 

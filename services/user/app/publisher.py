@@ -1,7 +1,8 @@
 import json
 
 import pika
-from app.config import get_settings
+
+from .config import get_settings
 
 settings = get_settings()
 params = pika.URLParameters(settings.RABBITMQ_URL)

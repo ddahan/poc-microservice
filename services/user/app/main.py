@@ -1,14 +1,15 @@
 from contextlib import asynccontextmanager
 from uuid import uuid4
 
-from app.db import engine
-from app.models import Base, User
 from fastapi import Depends, FastAPI, status
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
 from services.order.app.db import SessionLocal
 from services.user.app.publisher import publish_user_created
+
+from .db import engine
+from .models import Base, User
 
 
 @asynccontextmanager
