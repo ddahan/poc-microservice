@@ -1,0 +1,2 @@
+- [ ] Fill README.md
+- [ ] Add docker-compose.prod.yml

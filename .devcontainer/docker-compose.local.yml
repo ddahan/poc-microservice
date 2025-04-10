@@ -4,7 +4,7 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
       - PYTHONBREAKPOINT=ipdb.set_trace
-      - PYTHONPATH=/workspaces/poc-microservice/services
+      - PYTHONPATH=/workspaces/poc-microservice
     volumes:
       - ..:/workspaces:delegated
     command: sleep infinity

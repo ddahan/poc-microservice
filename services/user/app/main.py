@@ -6,10 +6,10 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
 from services.order.app.db import SessionLocal
-from services.user.app.publisher import publish_user_created
 
 from .db import engine
 from .models import Base, User
+from .publisher import publish_user_created
 
 
 @asynccontextmanager
