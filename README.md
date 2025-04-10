@@ -1,12 +1,22 @@
 # poc-microservice
 
-An app to play with microservice architecture using FastAPI
+## 🧠 How it works
 
-# Setup
+This project demonstrates a simple event-driven microservices architecture using Python, FastAPI, RabbitMQ, and SQLite.
+
+### 🧱 Services
+
+- **User Service**: FastAPI app that exposes an HTTP POST /users endpoint. When a user is created, it saves the user to its own local SQLite database and publishes a `user_created` event to RabbitMQ.
+
+- **Order Service**: A background Python process that subscribes to the user_created queue in RabbitMQ. When it receives an event, it creates or updates a local copy of the user (called a snapshot) in its own SQLite database.
+
+This demonstrates decoupling, event publishing/consuming, and eventual consistency between services — each service has its own database and communicates via messages, not HTTP.
+
+## ⚙️ Setup
 
 Use VSCode devcontainer feature to install the project using Docker.
 
-# Usage
+## 🚀 Usage
 
 ### 1. Run the infrastracture
 
@@ -32,7 +42,9 @@ python -m app.consumer
 ### 3. Create a user (simulate event)
 
 ```sh
-curl -X POST http://localhost:8000/users -d "name=Alice" -d "email=alice@example.com"
+curl -X POST http://localhost:8000/users \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Alice", "email": "alice@example.com"}'
 ```
 
 This should:

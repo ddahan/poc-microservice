@@ -6,8 +6,11 @@ from pika.adapters.blocking_connection import BlockingChannel
 from pika.spec import Basic, BasicProperties
 
 from .config import get_settings
-from .db import SessionLocal
-from .models import UserSnapshot
+from .db import SessionLocal, engine
+from .models import Base, UserSnapshot
+
+# Create the table if it doesn't exist yet
+Base.metadata.create_all(bind=engine)
 
 settings = get_settings()
 params = pika.URLParameters(settings.RABBITMQ_URL)

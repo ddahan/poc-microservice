@@ -10,6 +10,7 @@ from services.order.app.db import SessionLocal
 from .db import engine
 from .models import Base, User
 from .publisher import publish_user_created
+from .schemas import CreateUserRequest
 
 
 @asynccontextmanager
@@ -39,8 +40,10 @@ def ping():
 
 
 @app.post("/users", status_code=status.HTTP_201_CREATED)
-def create_user(name: str, email: str, db: Session = Depends(get_db)) -> JSONResponse:
-    user = User(id=str(uuid4()), name=name, email=email)
+def create_user(
+    payload: CreateUserRequest, db: Session = Depends(get_db)
+) -> JSONResponse:
+    user = User(id=str(uuid4()), name=payload.name, email=payload.email)
     db.add(user)
     db.commit()
     publish_user_created(user.id, user.name, user.email)
