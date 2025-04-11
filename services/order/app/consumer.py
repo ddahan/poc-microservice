@@ -25,7 +25,7 @@ connection: pika.BlockingConnection = pika.BlockingConnection(params)
 channel: Any = connection.channel()
 
 # Declare the queue this service will consume (create if not exists, durable)
-channel.queue_declare(queue="order_events", durable=True)
+channel.queue_declare(queue="queue_order", durable=True)
 
 
 def callback(
@@ -46,8 +46,8 @@ def callback(
         ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
-# Set up consumer on 'order_events' queue
-channel.basic_consume(queue="order_events", on_message_callback=callback)
+# Set up consumer on 'queue_order' queue
+channel.basic_consume(queue="queue_order", on_message_callback=callback)
 
 logger.info(" [*] Order consumer running. To exit press CTRL+C")
 channel.start_consuming()

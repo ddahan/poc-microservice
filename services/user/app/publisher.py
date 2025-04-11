@@ -18,7 +18,7 @@ def publish_user_created(user_id: str, name: str, email: str) -> None:
     # Publish the event to the RabbitMQ default exchange with the queue name as routing_key
     channel.basic_publish(
         exchange="",
-        routing_key="notification_dispatch",
+        routing_key="queue_dispatch",
         body=json.dumps(event),
         properties=pika.BasicProperties(delivery_mode=2),  # makes the message persistent
     )

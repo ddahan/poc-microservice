@@ -9,13 +9,13 @@ This project demonstrates a simple event-driven microservices architecture using
 - **User Service**  
   A FastAPI app exposing a `POST /users` endpoint. When a user is created:
   - It saves the user to its own local SQLite database
-  - It publishes a `user_created` event to the `notification_dispatch` queue
+  - It publishes a `user_created` event to the `queue_dispatch` queue
 
 - **Notification Service**  
-  - A background consumer that listens to the `notification_dispatch` queue and routes incoming events to other queues based on a routing table.
+  - A background consumer that listens to the `queue_dispatch` queue and routes incoming events to other queues based on a routing table.
 
 - **Order Service**  
-  - A background consumer that listens to the `order_events` queue.  
+  - A background consumer that listens to the `queue_order` queue.  
   - When it receives a `user_created` event, it stores a **snapshot** of the user in its own SQLite database.
 
 This demonstrates:
@@ -35,7 +35,7 @@ This demonstrates:
           v
 +----------------------------+
 |  RabbitMQ Queue:           |
-|  notification_dispatch     |
+|  queue_dispatch     |
 +----------------------------+
           |
           | 2. Consumed by
@@ -49,7 +49,7 @@ This demonstrates:
           v
 +----------------------------+
 |  RabbitMQ Queue:           |
-|  order_events              |
+|  queue_order              |
 +----------------------------+
           |
           | 4. Consumed by
@@ -90,6 +90,6 @@ curl -X POST http://localhost:8000/users \
 
 This will:
 - Insert the user into the User Service’s SQLite DB
-- Publish a `user_created` event to RabbitMQ (`notification_dispatch` queue)
-- Trigger the Notification Service to forward the event to `order_events`
+- Publish a `user_created` event to RabbitMQ (`queue_dispatch` queue)
+- Trigger the Notification Service to forward the event to `queue_order`
 - Order Service will store a **snapshot** of the user in its own DB

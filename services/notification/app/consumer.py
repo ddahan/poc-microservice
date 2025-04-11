@@ -15,7 +15,7 @@ connection: pika.BlockingConnection = pika.BlockingConnection(params)
 channel: Any = connection.channel()
 
 # Listen to notification dispatch queue
-channel.queue_declare(queue="notification_dispatch", durable=True)
+channel.queue_declare(queue="queue_dispatch", durable=True)
 
 
 def callback(
@@ -27,7 +27,7 @@ def callback(
 
 
 # Set up consumer: link queue to callback function
-channel.basic_consume(queue="notification_dispatch", on_message_callback=callback)
+channel.basic_consume(queue="queue_dispatch", on_message_callback=callback)
 
 # Start consuming messages (blocking loop)
 logger.info(" [*] Notification dispatcher running. To exit press CTRL+C")

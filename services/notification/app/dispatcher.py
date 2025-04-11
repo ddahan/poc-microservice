@@ -6,7 +6,7 @@ from loguru import logger
 from pika.adapters.blocking_connection import BlockingChannel
 
 ROUTING_TABLE: dict[str, list[str]] = {
-    "user_created": ["order_events"],
+    "user_created": ["queue_order"],
     # Future: "user_deleted": ["audit_events"], etc.
 }
 
