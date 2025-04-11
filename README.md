@@ -94,3 +94,12 @@ This will:
 - Publish a `user_created` event to RabbitMQ (`queue_dispatch` queue)
 - Trigger the Notification Service to forward the event to `queue_order`
 - Order Service will store a **snapshot** of the user in its own DB
+
+
+### Pika reminders
+
+
+- 🧱 `queue_declare()`: this declares a queue — basically creates a “mailbox” where messages will be stored until a consumer is ready.
+- 📩 `basic_publish()`: this is how the producer sends a message.
+- 👂 `basic_consume()`: this registers a callback that will handle incoming messages from a queue.
+- 🔁 `start_consuming()`: this starts a blocking loop that waits for incoming messages and runs the registered callback (from `basic_consume()`).
