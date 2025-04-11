@@ -23,6 +23,7 @@ This demonstrates:
 - **Asynchronous event dispatching**
 - **Eventual consistency** using RabbitMQ and dedicated databases per service
 
+
 ### ✍🏻 Diagram
 
 ```ascii
@@ -35,7 +36,7 @@ This demonstrates:
           v
 +----------------------------+
 |  RabbitMQ Queue:           |
-|  queue_dispatch     |
+|  queue_dispatch            |
 +----------------------------+
           |
           | 2. Consumed by

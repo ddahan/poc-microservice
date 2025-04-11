@@ -1,7 +1,8 @@
-import json
 from typing import Any
 
 import pika
+
+from shared.events.user import UserCreatedEvent
 
 from .config import get_settings
 
@@ -13,12 +14,12 @@ channel: Any = connection.channel()
 
 
 def publish_user_created(user_id: str, name: str, email: str) -> None:
-    event = {"event": "user_created", "user_id": user_id, "name": name, "email": email}
+    event = UserCreatedEvent(user_id=user_id, name=name, email=email)
 
-    # Publish the event to the RabbitMQ default exchange with the queue name as routing_key
+    # Publish the event to the RabbitMQ
     channel.basic_publish(
         exchange="",
         routing_key="queue_dispatch",
-        body=json.dumps(event),
+        body=event.model_dump_json(),
         properties=pika.BasicProperties(delivery_mode=2),  # makes the message persistent
     )

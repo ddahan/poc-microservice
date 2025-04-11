@@ -1,6 +1,7 @@
-- [ ] Message broker patterns like Kafka for loose coupling
 - [ ] Add `user_updated` and `user_deleted` events, and extract an event base class or schema.
 - [ ] Use Schema Validation for Events with Pydantic instead of raw JSON
+- [ ] Rename `notifications`
+- [ ] Rename `event.event` to `event.name`
 - [ ] Add Service-Level Logging
 - [ ] Introduce a Third Service Notification Serviece 
 - [ ] Add docker-compose.prod.yml with PostgreSQL
