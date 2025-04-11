@@ -15,7 +15,7 @@ from .schemas import CreateUserRequest
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    Base.metadata.create_all(bind=engine)
+    Base.metadata.create_all(bind=engine)  # will create User table
     yield
 
 

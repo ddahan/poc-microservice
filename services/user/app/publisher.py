@@ -1,4 +1,5 @@
 import json
+from typing import Any
 
 import pika
 
@@ -8,8 +9,7 @@ settings = get_settings()
 params = pika.URLParameters(settings.RABBITMQ_URL)
 
 connection = pika.BlockingConnection(params)
-channel = connection.channel()
-channel.queue_declare(queue="user_created", durable=True)
+channel: Any = connection.channel()
 
 
 def publish_user_created(user_id: str, name: str, email: str) -> None:
@@ -18,7 +18,7 @@ def publish_user_created(user_id: str, name: str, email: str) -> None:
     # Publish the event to the RabbitMQ default exchange with the queue name as routing_key
     channel.basic_publish(
         exchange="",
-        routing_key="user_created",
+        routing_key="notification_dispatch",
         body=json.dumps(event),
         properties=pika.BasicProperties(delivery_mode=2),  # makes the message persistent
     )

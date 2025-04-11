@@ -6,11 +6,60 @@ This project demonstrates a simple event-driven microservices architecture using
 
 ### 🧱 Services
 
-- **User Service**: FastAPI app that exposes an HTTP POST /users endpoint. When a user is created, it saves the user to its own local SQLite database and publishes a `user_created` event to RabbitMQ.
+- **User Service**  
+  A FastAPI app exposing a `POST /users` endpoint. When a user is created:
+  - It saves the user to its own local SQLite database
+  - It publishes a `user_created` event to the `notification_dispatch` queue
 
-- **Order Service**: A background Python process that subscribes to the `user_created` queue in RabbitMQ. When it receives an event, it creates or updates a local (partial) copy of the user (called a snapshot) in its own SQLite database.
+- **Notification Service**  
+  - A background consumer that listens to the `notification_dispatch` queue and routes incoming events to other queues based on a routing table.
 
-This demonstrates decoupling, event publishing/consuming, and eventual consistency between services — each service has its own database and communicates via messages, not HTTP.
+- **Order Service**  
+  - A background consumer that listens to the `order_events` queue.  
+  - When it receives a `user_created` event, it stores a **snapshot** of the user in its own SQLite database.
+
+This demonstrates:
+- **Loose coupling** between services
+- **Asynchronous event dispatching**
+- **Eventual consistency** using RabbitMQ and dedicated databases per service
+
+### ✍🏻 Diagram
+
+```ascii
++----------------------------+
+|  User Service              |
+|  (FastAPI: /users)         |
++----------------------------+
+          |
+          | 1. Publishes `user_created` event
+          v
++----------------------------+
+|  RabbitMQ Queue:           |
+|  notification_dispatch     |
++----------------------------+
+          |
+          | 2. Consumed by
+          v
++----------------------------+
+|  Notification Service      |
+|  (consumer + router)       |
++----------------------------+
+          |
+          | 3. Forwards to (using routing table)
+          v
++----------------------------+
+|  RabbitMQ Queue:           |
+|  order_events              |
++----------------------------+
+          |
+          | 4. Consumed by
+          v
++----------------------------+
+|  Order Service             |
+|  (snapshot store)          |
++----------------------------+
+
+```
 
 ## ⚙️ Setup
 
@@ -25,18 +74,10 @@ Use VSCode devcontainer feature to install the project using Docker.
 
 ### 2. Start the services
 
-In one terminal: run `User` service (publisher):
-
 ```sh
-cd services/user
-uvicorn app.main:app --reload --port 8000
-```
-
-In another terminal: run `Order` service (consumer):
-
-```sh
-cd services/order
-python -m app.consumer
+cd services/notification && python -m app.consumer
+cd services/order        && python -m app.consumer
+cd services/user         && uvicorn app.main:app --reload --port 8000
 ```
 
 ### 3. Create a user (simulate event)
@@ -47,9 +88,8 @@ curl -X POST http://localhost:8000/users \
   -d '{"name": "Alice", "email": "alice@example.com"}'
 ```
 
-This should:
-
-- Insert into user-db
-- Publish user_created event to RabbitMQ
-- Consume event in Order service
-- Insert into order-db snapshot table (order_users)
+This will:
+- Insert the user into the User Service’s SQLite DB
+- Publish a `user_created` event to RabbitMQ (`notification_dispatch` queue)
+- Trigger the Notification Service to forward the event to `order_events`
+- Order Service will store a **snapshot** of the user in its own DB
